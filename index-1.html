@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Remedial Prep</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#07130d; --bar:#0c1d14; --card:#10231a; --card2:#16301f; --line:#1f3a2b;
+  --text:#eaf5ee; --hint:#8fb09d; --accent:#1fbf6b; --accent-d:#0b7a43;
+  --gold:#e0a526; --gold-bg:#3a2d0c; --bad:#e5534b; --good:#1fbf6b;
+}
+:root[data-theme="light"]{
+  --bg:#f3f8f5; --bar:#ffffff; --card:#ffffff; --card2:#e4f2ea; --line:#d3e5db;
+  --text:#10231a; --hint:#5d7a6a; --gold-bg:#fbefcf;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Ethiopic",sans-serif;padding-bottom:84px}
+.top{position:sticky;top:0;z-index:5;background:var(--bar);border-bottom:1px solid var(--line);padding:12px 14px;display:flex;gap:10px;align-items:center}
+.ico{width:44px;height:44px;border-radius:12px;background:var(--card2);display:grid;place-items:center;font-size:20px;flex:none;border:1px solid var(--line)}
+.top .sel{flex:1;min-width:0}
+.top small{display:block;letter-spacing:.12em;font-size:11px;color:var(--hint);font-weight:700}
+select{width:100%;background:transparent;color:var(--text);border:0;font-size:17px;font-weight:700;padding:2px 0;outline:none;appearance:none}
+select option{color:#000}
+main{padding:16px 14px}
+h2{margin:0 0 4px;font-size:22px} .sub{color:var(--hint);font-size:14px;margin:0 0 14px}
+.hero{background:linear-gradient(135deg,var(--accent-d),#0e4d2c);color:#fff;border-radius:20px;padding:18px;margin-bottom:20px}
+.hero h3{margin:0 0 4px;font-size:20px}.hero p{margin:0 0 12px;opacity:.85;font-size:14px}
+.bar{height:8px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:#fff;border-radius:99px}
+.btn{display:inline-block;border:0;border-radius:99px;padding:10px 18px;font-weight:700;font-size:15px;background:#fff;color:#0b7a43;margin-top:12px}
+.btn.full{display:block;width:100%;border-radius:12px;background:var(--accent);color:#fff;padding:13px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.tile .row{display:flex;justify-content:space-between;align-items:center}
+.tile .ico{width:40px;height:40px;font-size:18px}
+.chip{font-size:11px;font-weight:800;letter-spacing:.08em;padding:5px 10px;border-radius:99px;background:var(--card2);color:var(--accent)}
+.tile.gold .chip{background:var(--gold-bg);color:var(--gold)} .tile.gold .ico{background:var(--gold-bg)}
+.tile b{font-size:17px}.tile span{color:var(--hint);font-size:13px}
+.tile .open{color:var(--accent);font-weight:700;margin-top:6px}.tile.gold .open{color:var(--gold)}
+.label{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--hint);margin:22px 0 10px}
+.link{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;font-weight:700;text-align:center}
+.list .item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.item small{color:var(--hint);display:block;margin-top:2px}
+.q{font-size:18px;font-weight:700;line-height:1.4;margin:10px 0 14px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;font-size:16px}
+.opt.good{border-color:var(--good);background:rgba(31,191,107,.15)}.opt.bad{border-color:var(--bad);background:rgba(229,83,75,.15)}
+.expl{background:var(--card2);border-radius:12px;padding:12px;font-size:14px;margin:6px 0 12px}
+.meta{display:flex;justify-content:space-between;color:var(--hint);font-size:14px;font-weight:600}
+.big{font-size:56px;font-weight:800;text-align:center;margin:10px 0;color:var(--accent)}
+.note{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.note summary{padding:14px;font-weight:700;list-style:none}
+.note div{padding:0 14px 14px;color:var(--text);font-size:15px;line-height:1.55;white-space:pre-line}
+.rank{display:flex;gap:10px;align-items:center}.rank .n{width:28px;height:28px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-weight:800;font-size:13px}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--card2);margin:0 auto 10px;display:grid;place-items:center;font-size:36px;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stats b{display:block;font-size:22px;color:var(--accent)}.stats span{font-size:12px;color:var(--hint)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bar);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:6}
+nav button{flex:1;background:none;border:0;color:var(--hint);font-size:11px;font-weight:700;padding:6px 0;border-radius:14px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button i{font-style:normal;font-size:20px}nav button.on{color:var(--accent);background:var(--card2)}
+.banner{display:flex;gap:12px;align-items:center;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold);border-radius:16px;padding:14px;margin-bottom:18px;font-weight:700}
+.banner small{display:block;font-weight:500;opacity:.85}
+.lock{opacity:.6}
+.pay{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;line-height:1.6;font-size:15px}
+.pay b{color:var(--accent)}
+input[type=text]{width:100%;background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:13px;font-size:16px;margin-top:6px;outline:none;text-transform:uppercase}
+.msg{margin:10px 0;font-size:14px;color:var(--hint);text-align:center}
+.tile.wide{grid-column:1/-1}
+.vip{display:inline-block;background:var(--gold-bg);color:var(--gold);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:800;letter-spacing:.08em;margin-bottom:8px}
+.form label{display:block;font-size:13px;font-weight:700;color:var(--hint);margin:14px 0 6px}
+.form input,.form select{display:block;width:100%;background:var(--card);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:13px;font-size:16px;font-weight:500;outline:none;text-transform:none;margin:0;-webkit-appearance:auto;appearance:auto}
+.form input:focus,.form select:focus{border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="ico">🎓</div>
+  <div class="sel"><small>STUDYING · እየተማሩ ያሉት</small><select id="subject"></select></div>
+  <button class="ico" id="theme" aria-label="Theme">☀️</button>
+</div>
+<main id="view"></main>
+<nav id="nav"></nav>
+
+<script>
+/* =====================  1. YOUR CONTENT  =====================
+   Replace / extend this with your real questions.
+   a = index (0-based) of the correct option. */
+const CHANNEL_URL = "https://t.me/remidialexam";
+const SUPPORT_URL = "https://t.me/HALAL_PROMOTIONS";
+const API_URL = "";  // <-- your deployed backend URL, e.g. "https://remedial-api.onrender.com" (no trailing slash)
+const PRICE = 250;   // price in ETB
+const PAY = { telebirr:"0964310308", cbe:"1000682299308", name:"Nejaw Toyb Ahmed" };
+
+const DATA = {
+  math: { name:"Mathematics", am:"ሒሳብ", icon:"➗", topics:[
+    { id:"alg", name:"Algebra", am:"አልጀብራ",
+      questions:[
+        {q:"Solve: 2x + 6 = 14", o:["x = 3","x = 4","x = 5","x = 10"], a:1, e:"2x = 8, so x = 4."},
+        {q:"What is the discriminant of x² - 4x + 4 = 0?", o:["0","4","8","16"], a:0, e:"D = 16 - 16 = 0 (one repeated root)."},
+        {q:"Simplify: 2³ × 2⁴", o:["2⁷","2¹²","4⁷","4¹²"], a:0, e:"Add exponents: 3 + 4 = 7."}
+      ]},
+    { id:"geo", name:"Geometry", am:"ጂኦሜትሪ",
+      questions:[
+        {q:"Sum of interior angles of a triangle?", o:["90°","180°","270°","360°"], a:1, e:"Always 180°."},
+        {q:"Hypotenuse of a right triangle with legs 3 and 4?", o:["5","6","7","12"], a:0, e:"√(9+16) = 5."},
+        {q:"Area of a circle with radius 7 (π ≈ 22/7)?", o:["44","154","49","22"], a:1, e:"(22/7)·49 = 154."}
+      ]}
+  ]},
+
+  phy: { name:"Physics", am:"ፊዚክስ", icon:"⚛️", topics:[
+    { id:"mech", name:"Mechanics", am:"ሜካኒክስ",
+      questions:[
+        {q:"SI unit of force?", o:["Joule","Newton","Watt","Pascal"], a:1, e:"Force is measured in newtons (N)."},
+        {q:"A 2 kg object accelerates at 3 m/s². Net force?", o:["1.5 N","5 N","6 N","9 N"], a:2, e:"F = ma = 2 × 3 = 6 N."},
+        {q:"Kinetic energy depends on…", o:["mass only","speed only","mass and speed","height"], a:2, e:"KE = ½mv²."}
+      ]},
+    { id:"elec", name:"Electricity", am:"ኤሌክትሪክ",
+      questions:[
+        {q:"Ohm's law is…", o:["V = I / R","V = I · R","V = R / I","V = I + R"], a:1, e:"Voltage = current × resistance."},
+        {q:"Current through a 10 Ω resistor connected to 20 V?", o:["0.5 A","2 A","30 A","200 A"], a:1, e:"I = V / R = 20 / 10 = 2 A."},
+        {q:"Two 4 Ω resistors in series give a total of…", o:["2 Ω","4 Ω","8 Ω","16 Ω"], a:2, e:"In series, add the resistances: 4 + 4 = 8 Ω."}
+      ]}
+  ]},
+
+  chem: { name:"Chemistry", am:"ኬሚስትሪ", icon:"🧪", topics:[
+    { id:"atom", name:"Atomic Structure", am:"የአቶም አወቃቀር",
+      questions:[
+        {q:"The atomic number of an element equals the number of…", o:["neutrons","protons","nucleons","electron shells"], a:1, e:"Atomic number = number of protons."},
+        {q:"An atom has 11 protons and 12 neutrons. Its mass number is…", o:["11","12","23","1"], a:2, e:"11 + 12 = 23."},
+        {q:"A neutron has…", o:["a positive charge","a negative charge","no charge","a variable charge"], a:2, e:"Neutrons are neutral."}
+      ]},
+    { id:"acid", name:"Acids & Bases", am:"አሲድና ቤዝ",
+      questions:[
+        {q:"A solution with pH 3 is…", o:["acidic","neutral","basic","a salt"], a:0, e:"pH below 7 is acidic."},
+        {q:"An acid reacting with a base produces…", o:["salt and water","hydrogen only","salt only","oxygen and water"], a:0, e:"This is neutralisation."},
+        {q:"Bases turn red litmus paper…", o:["red","blue","yellow","colourless"], a:1, e:"Bases turn red litmus blue."}
+      ]}
+  ]},
+
+  bio: { name:"Biology", am:"ባዮሎጂ", icon:"🧬", topics:[
+    { id:"cell", name:"The Cell", am:"ሴል",
+      questions:[
+        {q:"Which organelle releases energy for the cell?", o:["Nucleus","Mitochondria","Ribosome","Cell wall"], a:1, e:"Mitochondria carry out respiration."},
+        {q:"Which is found in plant cells but not animal cells?", o:["Nucleus","Cell membrane","Chloroplast","Cytoplasm"], a:2, e:"Chloroplasts are only in plant cells."},
+        {q:"DNA is mainly found in the…", o:["nucleus","vacuole","cell wall","cell membrane"], a:0, e:"The nucleus holds the genetic material."}
+      ]},
+    { id:"photo", name:"Photosynthesis", am:"ፎቶሲንተሲስ",
+      questions:[
+        {q:"Which gas do plants take in for photosynthesis?", o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], a:2, e:"Plants use carbon dioxide."},
+        {q:"Which pigment absorbs light for photosynthesis?", o:["Haemoglobin","Chlorophyll","Melanin","Keratin"], a:1, e:"Chlorophyll absorbs light."},
+        {q:"Which gas is released by photosynthesis?", o:["Oxygen","Carbon dioxide","Nitrogen","Methane"], a:0, e:"Oxygen is released along with glucose."}
+      ]}
+  ]},
+
+  eng: { name:"English", am:"እንግሊዝኛ", icon:"📖", topics:[
+    { id:"gram", name:"Grammar", am:"ሰዋስው",
+      questions:[
+        {q:"Choose the correct sentence.", o:["She go to school.","She goes to school.","She going to school.","She gone to school."], a:1, e:"Third person singular takes -es/-s."},
+        {q:"Past tense of 'buy'?", o:["buyed","bought","boughten","buying"], a:1, e:"'Buy' is irregular: bought."},
+        {q:"I ___ here since 2020.", o:["live","lived","have lived","am living"], a:2, e:"'Since' needs the present perfect."}
+      ]},
+    { id:"vocab", name:"Vocabulary", am:"የቃላት ዝርዝር",
+      questions:[
+        {q:"Which word is a synonym of 'rapid'?", o:["slow","quick","weak","late"], a:1, e:"Rapid means quick."},
+        {q:"Which word is an antonym of 'ancient'?", o:["old","modern","huge","rare"], a:1, e:"Ancient (very old) is the opposite of modern."},
+        {q:"In 'unhappy', the prefix 'un-' means…", o:["very","again","not","before"], a:2, e:"un- means 'not'."}
+      ]}
+  ]},
+
+  econ: { name:"Economics", am:"ኢኮኖሚክስ", icon:"📈", topics:[
+    { id:"basic", name:"Basic Concepts", am:"መሠረታዊ ሐሳቦች",
+      questions:[
+        {q:"The basic economic problem is…", o:["inflation","scarcity","unemployment","taxation"], a:1, e:"Limited resources vs unlimited wants."},
+        {q:"Opportunity cost is…", o:["the money price of a good","the next best alternative given up","the total cost","the profit"], a:1, e:"It is what you give up when you choose."},
+        {q:"Which is NOT a factor of production?", o:["Land","Labour","Capital","Inflation"], a:3, e:"Inflation is a rise in prices, not a factor of production."}
+      ]},
+    { id:"ds", name:"Demand & Supply", am:"ፍላጎትና አቅርቦት",
+      questions:[
+        {q:"If the price of a good rises, quantity demanded usually…", o:["rises","falls","stays the same","doubles"], a:1, e:"This is the law of demand."},
+        {q:"According to the law of supply, a higher price leads to…", o:["lower quantity supplied","higher quantity supplied","no change","zero supply"], a:1, e:"Producers supply more at higher prices."},
+        {q:"Market equilibrium occurs when…", o:["demand is greater than supply","supply is greater than demand","demand equals supply","price is zero"], a:2, e:"Quantity demanded = quantity supplied."}
+      ]}
+  ]},
+
+  geo: { name:"Geography", am:"ጂኦግራፊ", icon:"🌍", topics:[
+    { id:"eth", name:"Ethiopia", am:"ኢትዮጵያ",
+      questions:[
+        {q:"What is Ethiopia's highest mountain?", o:["Mount Kenya","Ras Dejen","Mount Kilimanjaro","Mount Batu"], a:1, e:"Ras Dejen in the Simien Mountains."},
+        {q:"The Blue Nile (Abay) starts from…", o:["Lake Tana","Lake Ziway","Lake Abaya","Lake Langano"], a:0, e:"It flows out of Lake Tana."},
+        {q:"Ethiopia is located in…", o:["West Africa","the Horn of Africa","Southern Africa","North America"], a:1, e:"Ethiopia is part of the Horn of Africa."}
+      ]},
+    { id:"map", name:"Map Skills", am:"የካርታ ክህሎት",
+      questions:[
+        {q:"The Equator is at…", o:["0° latitude","90° latitude","0° longitude","180° longitude"], a:0, e:"The Equator is 0° latitude."},
+        {q:"Lines joining places of equal height are called…", o:["isobars","contour lines","isotherms","meridians"], a:1, e:"Contour lines show height."},
+        {q:"Lines of longitude run…", o:["east–west","north–south","diagonally","randomly"], a:1, e:"They run from pole to pole."}
+      ]}
+  ]},
+
+  hist: { name:"History", am:"ታሪክ", icon:"🏛️", topics:[
+    { id:"anc", name:"Ancient & Medieval Ethiopia", am:"ጥንታዊ ኢትዮጵያ",
+      questions:[
+        {q:"Which kingdom was a major ancient trading power in northern Ethiopia?", o:["Aksum","Kush","Songhai","Mali"], a:0, e:"The Aksumite Kingdom."},
+        {q:"Lalibela is famous for its…", o:["rock-hewn churches","pyramids","a railway","skyscrapers"], a:0, e:"Churches carved from solid rock."},
+        {q:"Which Aksumite king adopted Christianity?", o:["Ezana","Menelik II","Tewodros II","Yohannes IV"], a:0, e:"King Ezana, in the 4th century."}
+      ]},
+    { id:"mod", name:"Modern Ethiopia", am:"ዘመናዊ ኢትዮጵያ",
+      questions:[
+        {q:"The Battle of Adwa took place in…", o:["1836","1896","1936","1974"], a:1, e:"1896 (1888 E.C.)."},
+        {q:"Who led Ethiopia at the Battle of Adwa?", o:["Menelik II","Haile Selassie I","Tewodros II","Lij Iyasu"], a:0, e:"Emperor Menelik II."},
+        {q:"The Derg came to power in…", o:["1941","1960","1974","1991"], a:2, e:"1974."}
+      ]}
+  ]}
+};
+
+/* =====================  PAST YEAR EXAMS  =====================
+   Add real past exams here (newest first). The first exam of each subject is free, the rest need premium.
+   minutes = time limit (0 = no timer). Questions and options keep this exact order.
+   Template for one exam:
+   { id:"2016", title:"2016 E.C. Remedial Exam", minutes:60, questions:[
+       {q:"Question text?", o:["A","B","C","D"], a:0, e:"Why this is correct"},
+   ]}
+*/
+const EXAMS = {
+  math: [
+    { id:"sample", title:"Sample Exam · ናሙና ፈተና", minutes:10, questions:[
+      {q:"If f(x) = 3x − 2, what is f(4)?", o:["8","10","12","14"], a:1, e:"3(4) − 2 = 10."},
+      {q:"Solve x² = 49 (positive root).", o:["5","6","7","9"], a:2, e:"√49 = 7."},
+      {q:"What is 25% of 80?", o:["15","20","25","40"], a:1, e:"0.25 × 80 = 20."},
+      {q:"The slope of the line y = 2x + 5 is…", o:["5","2","−2","7"], a:1, e:"In y = mx + c, m is the slope."}
+    ]}
+  ],
+  phy:[], chem:[], bio:[], eng:[], econ:[], geo:[], hist:[]
+};
+
+/* =====================  EXERCISE BOOKS (PDF)  =====================
+   1. Create a folder called "books" in your GitHub repository and upload the PDF files into it.
+   2. Add one line per book below. The first book of each subject is free, the rest need premium.
+   Template:  { title:"Mathematics Exercise Book", am:"የሒሳብ የልምምድ መጽሐፍ", file:"books/math.pdf", pages:120 }
+*/
+const BOOKS = {
+  math:[], phy:[], chem:[], bio:[], eng:[], econ:[], geo:[], hist:[]
+};
+
+const FAQ = [
+  ["How do I start? · እንዴት ልጀምር?","Pick your subject at the top, open Questions, and begin with a topic practice before trying a mock exam."],
+  ["How is the mock exam scored?","Each correct answer is 1 point. The timer runs for 15 minutes or until you finish all questions."],
+  ["Are my results saved? · ውጤቴ ይቀመጣል?","Yes, on this device. Your progress stays when you reopen the app."],
+  ["How do I contact support?","Use the Support Chat button on the dashboard."]
+];
+
+/* =====================  2. STATE / STORAGE  ===================== */
+const tg = window.Telegram?.WebApp;
+try{ tg?.ready(); tg?.expand(); tg?.setHeaderColor?.("#0b7a43"); }catch(e){}
+const user = tg?.initDataUnsafe?.user || null;
+
+const KEY = "remedial_v1";
+const load = () => { try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } };
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
+const S = Object.assign({ subject:"math", theme:"dark", answered:0, correct:0, quizzes:0, bySubject:{}, board:[], premium:false, payStatus:"", registered:false, profile:null }, load());
+
+let view = "home", quiz = null, timer = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => { a = a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.random()*(i+1)|0; [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const subj = () => DATA[S.subject];
+const allQs = () => subj().topics.flatMap(t => t.questions);
+const haptic = t => { try{ tg?.HapticFeedback?.notificationOccurred(t); }catch(e){} };
+
+/* =====================  3. VIEWS  ===================== */
+const NAV = [["home","▦","Dashboard"],["questions","📝","Questions"],["faq","❓","FAQ"],["compete","🏆","Compete"],["profile","👤","Profile"]];
+
+function pct(){ const b = S.bySubject[S.subject]||{a:0,c:0}; return b.a ? Math.round(100*b.c/b.a) : 0; }
+
+function home(){
+  const b = S.bySubject[S.subject] || {a:0,c:0};
+  return `
+  <div class="hero">
+    <h3>${esc(subj().name)} · ${esc(subj().am)}</h3>
+    <p>${b.a} answered · ${pct()}% accuracy</p>
+    <div class="bar"><i style="width:${Math.min(100,b.a*2)}%"></i></div>
+    <button class="btn" data-go="questions">Continue learning</button>
+  </div>
+  ${S.premium ? "" : `<div class="banner" data-go="premium"><span style="font-size:26px">🔓</span><div>Unlock full access · ${PRICE} ETB<small>All topics, past exams, exercise books &amp; challenges</small></div></div>`}
+  <h2>Explore</h2><p class="sub">Questions, past exams, exercises and competitions. ጥያቄ፣ ያለፉ ፈተናዎች፣ ልምምድ፣ ውድድር።</p>
+  <div class="grid">
+    ${tile("questions","📝","PRACTICE","Questions","ጥያቄዎች","Topic & mock exams","በርዕስ እና ፈተና")}
+    ${tile("exams","📄","REVIEW","Past Exams","ያለፉ ፈተናዎች","Previous years","የቀድሞ ዓመታት")}
+    ${tile("book","📘","SOLVE","Exercise Book","የልምምድ መጽሐፍ","Practice workbook (PDF)","የልምምድ መጽሐፍ")}
+    ${tile("compete","🏆","COMPETE","Competition","ውድድር","Daily challenges","የቀን ውድድሮች","gold")}
+    ${tile("faq","💡","PREPARE","Exam Tips","ጠቃሚ ምክሮች","FAQ & strategy","ጥያቄና መልስ","wide")}
+  </div>
+  <div class="label">COMMUNITY</div>
+  <div class="grid">
+    <div class="link" data-link="${CHANNEL_URL}">📣 Telegram Channel</div>
+    <div class="link" data-link="${SUPPORT_URL}">➤ Support Chat</div>
+  </div>`;
+}
+const tile = (go,ic,chip,t,am,d,dam,cls="") => `
+  <div class="tile ${cls}" data-go="${go}">
+    <div class="row"><div class="ico">${ic}</div><span class="chip">${chip}</span></div>
+    <b>${t}<br>${am}</b><span>${d}<br>${dam}</span><div class="open">Open ክፈት →</div>
+  </div>`;
+
+function questions(){
+  const s = subj();
+  return `<h2>Questions · ጥያቄዎች</h2><p class="sub">${esc(s.name)}</p>
+  <div class="list">
+    <div class="item"><div><b>⏱ Mock Exam · ሞክ ፈተና</b><small>10 random questions · 15 min</small></div>
+      <button class="btn" style="margin:0" data-act="mock">${S.premium?"Start":"🔒 Unlock"}</button></div>
+    <div class="item" data-go="exams"><div><b>📄 Past Exams · ያለፉ ፈተናዎች</b><small>${(EXAMS[S.subject]||[]).length} exams</small></div><span>→</span></div>
+    <div class="item" data-go="book"><div><b>📘 Exercise Book · የልምምድ መጽሐፍ</b><small>${(BOOKS[S.subject]||[]).length} books</small></div><span>→</span></div>
+  </div>
+  <div class="label">TOPICS · ርዕሶች</div>
+  <div class="list">${s.topics.map((t,i)=>`
+    <div class="item ${i>0&&!S.premium?"lock":""}" data-act="topic" data-id="${t.id}">
+      <div><b>${esc(t.name)} · ${esc(t.am)}</b><small>${t.questions.length} questions${i===0?" · Free":""}</small></div><span>${i>0&&!S.premium?"🔒":"→"}</span></div>`).join("")}
+  </div>`;
+}
+
+const emptyState = t => `<div class="item"><small style="text-align:center;width:100%;margin:0">${t}</small></div>`;
+
+function examsView(){
+  const list = EXAMS[S.subject] || [];
+  return `<h2>Past Exams · ያለፉ ፈተናዎች</h2><p class="sub">${esc(subj().name)}</p>` +
+    (list.length
+      ? `<div class="list">${list.map((x,i)=>`
+        <div class="item ${i>0&&!S.premium?"lock":""}" data-act="exam" data-i="${i}">
+          <div><b>📄 ${esc(x.title)}</b><small>${x.questions.length} questions${x.minutes?` · ${x.minutes} min`:""}${i===0?" · Free":""}</small></div>
+          <span>${i>0&&!S.premium?"🔒":"→"}</span></div>`).join("")}</div>`
+      : emptyState("No past exams added yet for this subject.<br>ለዚህ ትምህርት ያለፉ ፈተናዎች ገና አልተጨመሩም።"));
+}
+
+function bookView(){
+  const list = BOOKS[S.subject] || [];
+  return `<h2>Exercise Book · የልምምድ መጽሐፍ</h2><p class="sub">${esc(subj().name)}</p>` +
+    (list.length
+      ? `<div class="list">${list.map((b,i)=>`
+        <div class="item ${i>0&&!S.premium?"lock":""}" data-act="book" data-i="${i}">
+          <div><b>📘 ${esc(b.title)}${b.am?" · "+esc(b.am):""}</b><small>PDF${b.pages?` · ${b.pages} pages`:""}${i===0?" · Free":""}</small></div>
+          <span>${i>0&&!S.premium?"🔒":"⬇"}</span></div>`).join("")}</div>`
+      : emptyState("The exercise book for this subject is coming soon.<br>የልምምድ መጽሐፉ በቅርብ ቀን ይጨመራል።"));
+}
+
+function faq(){
+  return `<h2>FAQ & Tips · ጥያቄና መልስ</h2><p class="sub">&nbsp;</p>` +
+    FAQ.map(([q,a])=>`<details class="note"><summary>${esc(q)}</summary><div>${esc(a)}</div></details>`).join("");
+}
+
+function compete(){
+  const rows = S.board.slice().sort((a,b)=>b.score-a.score).slice(0,10);
+  return `<h2>Competition · ውድድር</h2><p class="sub">Daily challenge: 5 questions, 5 minutes</p>
+  <button class="btn full" data-act="daily">${S.premium?"🏆 Start Daily Challenge":"🔒 Unlock Daily Challenge"}</button>
+  <div class="label">YOUR BEST SCORES · ከፍተኛ ውጤቶች</div>
+  <div class="list">${rows.length ? rows.map((r,i)=>`
+    <div class="item"><div class="rank"><div class="n">${i+1}</div><div><b>${esc(r.name)}</b><small>${esc(r.subject)} · ${esc(r.date)}</small></div></div><b>${r.score}/${r.total}</b></div>`).join("")
+    : `<div class="item"><small>No attempts yet. Take your first challenge!</small></div>`}
+  </div>
+  <p class="sub" style="margin-top:14px">Scores are saved on this device. Set API_URL in the code to share a global leaderboard.</p>`;
+}
+
+function profile(){
+  const name = S.profile?.name || (user ? [user.first_name, user.last_name].filter(Boolean).join(" ") : "Guest");
+  const acc = S.answered ? Math.round(100*S.correct/S.answered) : 0;
+  return `<div style="text-align:center">
+    <div class="avatar">${user?.photo_url ? `<img src="${esc(user.photo_url)}" alt="">` : "👤"}</div>
+    ${S.premium ? `<div class="vip">★ PREMIUM</div>` : ""}
+    <h2>${esc(name)}</h2><p class="sub">${user?.username ? "@"+esc(user.username) : "Remedial student"}</p></div>
+  ${S.premium ? "" : `<button class="btn full" data-go="premium" style="margin-top:14px">🔓 Unlock full access</button>`}
+  ${S.profile ? `<div class="pay" style="margin-top:14px">📞 ${esc(S.profile.phone)}<br>🎓 ${esc(streamLabel(S.profile.stream))}<br>📍 ${esc(S.profile.region)}<br>🏫 ${esc(S.profile.school)}</div>
+    <button class="btn full ghost" data-go="register">✏️ Edit profile</button>` : ""}
+  <div class="stats"><div><b>${S.answered}</b><span>Answered</span></div><div><b>${acc}%</b><span>Accuracy</span></div><div><b>${S.quizzes}</b><span>Quizzes</span></div></div>
+  <button class="btn full ghost" data-act="reset">Reset progress</button>`;
+}
+
+/* =====================  4. QUIZ ENGINE  ===================== */
+function startQuiz(title, pool, count, seconds, kind, ordered){
+  const qs = (ordered ? pool : shuffle(pool)).slice(0, count).map(q => {
+    // shuffle options but remember the right one (past exams keep their original order)
+    const idx = ordered ? q.o.map((t,i)=>i) : shuffle(q.o.map((t,i)=>i));
+    return { q:q.q, e:q.e, o: idx.map(i=>q.o[i]), a: idx.indexOf(q.a) };
+  });
+  clearInterval(timer);
+  quiz = { title, qs, i:0, score:0, picked:null, kind, end: seconds ? Date.now()+seconds*1000 : 0 };
+  view = "quiz"; render();
+  if(seconds) timer = setInterval(tick, 500);
+}
+function tick(){
+  const left = Math.max(0, Math.round((quiz.end - Date.now())/1000));
+  const el = $("#clock"); if(el) el.textContent = `${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`;
+  if(left <= 0) finish();
+}
+function quizView(){
+  const q = quiz.qs[quiz.i];
+  return `<div class="meta"><span>${esc(quiz.title)}</span><span>${quiz.i+1}/${quiz.qs.length}${quiz.end?` · ⏱ <span id="clock"></span>`:""}</span></div>
+  <div class="bar" style="background:var(--line);margin-top:10px"><i style="background:var(--accent);width:${100*quiz.i/quiz.qs.length}%"></i></div>
+  <div class="q">${esc(q.q)}</div>
+  ${q.o.map((t,i)=>{
+    let c=""; if(quiz.picked!==null){ if(i===q.a) c="good"; else if(i===quiz.picked) c="bad"; }
+    return `<button class="opt ${c}" data-act="pick" data-i="${i}" ${quiz.picked!==null?"disabled":""}>${"ABCD"[i]}. ${esc(t)}</button>`;
+  }).join("")}
+  ${quiz.picked!==null ? `<div class="expl">💡 ${esc(q.e||"")}</div>
+    <button class="btn full" data-act="next">${quiz.i+1===quiz.qs.length?"Finish":"Next"} →</button>` : ""}`;
+}
+function pick(i){
+  if(quiz.picked!==null) return;
+  const q = quiz.qs[quiz.i]; quiz.picked = i;
+  const ok = i===q.a; if(ok) quiz.score++;
+  S.answered++; if(ok) S.correct++;
+  const b = S.bySubject[S.subject] = S.bySubject[S.subject] || {a:0,c:0}; b.a++; if(ok) b.c++;
+  save(); haptic(ok?"success":"error"); render();
+}
+function next(){ quiz.i++; quiz.picked=null; quiz.i>=quiz.qs.length ? finish() : render(); }
+function finish(){
+  clearInterval(timer);
+  S.quizzes++;
+  if(quiz.kind==="daily"){
+    const name = user?.first_name || "You";
+    S.board.push({name, subject:subj().name, score:quiz.score, total:quiz.qs.length, date:new Date().toLocaleDateString()});
+    S.board = S.board.slice(-50); submitScore(quiz.score, quiz.qs.length);
+  }
+  save(); view="result"; render();
+}
+function result(){
+  const p = Math.round(100*quiz.score/quiz.qs.length);
+  return `<h2 style="text-align:center">${p>=70?"🎉 Great job!":p>=40?"👍 Keep going!":"💪 Don't give up!"}</h2>
+  <div class="big">${quiz.score}/${quiz.qs.length}</div><p class="sub" style="text-align:center">${p}% correct</p>
+  <button class="btn full" data-act="again">Try again</button>
+  <button class="btn full ghost" style="margin-top:10px" data-go="${quiz.kind==="exam"?"exams":"questions"}">Back</button>`;
+}
+async function submitScore(score,total){
+  if(!API_URL) return;
+  try{ await api("/api/score",{score,total,subject:S.subject}); }catch(e){}
+}
+
+/* =====================  REGISTRATION  ===================== */
+const STREAMS = [["natural","Natural Science · የተፈጥሮ ሳይንስ"],["social","Social Science · ማኅበራዊ ሳይንስ"]];
+// keep this list identical to REGIONS in server.js
+const REGIONS = ["Addis Ababa","Oromia","Amhara","Tigray","Sidama","Central Ethiopia","South Ethiopia","South West Ethiopia","Afar","Somali","Benishangul-Gumuz","Gambella","Harari","Dire Dawa"];
+const streamLabel = v => (STREAMS.find(s=>s[0]===v) || ["",""])[1];
+// accepts 09XXXXXXXX, 07XXXXXXXX, 9XXXXXXXX, 251…, +251… and returns +2519XXXXXXXX (or "" if invalid)
+function normPhone(v){
+  const m = String(v).replace(/[\s-]/g,"").match(/^(?:\+251|251|0)?([79]\d{8})$/);
+  return m ? "+251"+m[1] : "";
+}
+const RERR = {
+  bad_name:"Please enter your full name.",
+  bad_phone:"Enter a valid Ethiopian phone number, e.g. 09XXXXXXXX.",
+  bad_stream:"Please choose your stream.",
+  bad_region:"Please choose your region.",
+  bad_school:"Please enter your school name.",
+  not_configured:"Registration is not available right now."
+};
+function rsay(t){ const m=$("#rmsg"); if(m) m.textContent=t; }
+function registerView(){
+  const p = S.profile || {};
+  const tgName = user ? [user.first_name, user.last_name].filter(Boolean).join(" ") : "";
+  const editing = S.registered;
+  return `<h2>${editing ? "✏️ Edit profile · ፕሮፋይል አስተካክል" : "👋 Welcome · እንኳን ደህና መጡ"}</h2>
+  <p class="sub">${editing ? "Update your details." : "Create your student profile to start studying. ለመጀመር ፕሮፋይልዎን ይሙሉ።"}</p>
+  <div class="form">
+    <label for="rname">Full name · ሙሉ ስም</label>
+    <input id="rname" value="${esc(p.name || tgName)}" autocomplete="name" maxlength="60">
+    <label for="rphone">Phone number · ስልክ ቁጥር</label>
+    <input id="rphone" type="tel" inputmode="tel" placeholder="09XXXXXXXX" value="${esc(p.phone || "")}" maxlength="16">
+    <label for="rstream">Stream · የትምህርት ዘርፍ</label>
+    <select id="rstream">${STREAMS.map(([v,l])=>`<option value="${v}" ${p.stream===v?"selected":""}>${l}</option>`).join("")}</select>
+    <label for="rregion">Region · ክልል</label>
+    <select id="rregion">${REGIONS.map(r=>`<option ${p.region===r?"selected":""}>${r}</option>`).join("")}</select>
+    <label for="rschool">School · ትምህርት ቤት</label>
+    <input id="rschool" value="${esc(p.school || "")}" maxlength="80">
+  </div>
+  <p class="sub" style="font-size:12px;margin-top:14px">By continuing you agree that we store these details to manage your account and payments.</p>
+  <button class="btn full" data-act="register">${editing ? "Save changes" : "Create account · ጀምር"}</button>
+  ${editing ? `<button class="btn full ghost" style="margin-top:10px" data-go="profile">Cancel</button>` : ""}
+  <div class="msg" id="rmsg"></div>`;
+}
+async function submitRegistration(){
+  const p = {
+    name: $("#rname").value.trim().replace(/\s+/g," "),
+    phone: normPhone($("#rphone").value),
+    stream: $("#rstream").value,
+    region: $("#rregion").value,
+    school: $("#rschool").value.trim().replace(/\s+/g," ")
+  };
+  if(p.name.length < 3) return rsay(RERR.bad_name);
+  if(!p.phone) return rsay(RERR.bad_phone);
+  if(p.school.length < 2) return rsay(RERR.bad_school);
+  rsay("Saving…");
+  try{
+    let saved = p;
+    if(API_URL){ const r = await api("/api/register", p); saved = r.profile || p; }  // without a backend, the profile is kept on this device only
+    S.profile = saved; S.registered = true; fillSubjects(); save(); haptic("success");
+    view = "home"; render();
+  }catch(e){ rsay(RERR[e.message] || "Could not save. Please try again."); }
+}
+
+/* =====================  PAYMENTS  ===================== */
+// NOTE: premium status shown here is only a UI cache. The backend is the source of truth.
+async function api(path, body){
+  if(!API_URL) throw new Error("not_configured");
+  const r = await fetch(API_URL+path,{
+    method: body ? "POST" : "GET",
+    headers:{"Content-Type":"application/json","X-Telegram-Init-Data":tg?.initData||""},
+    body: body ? JSON.stringify(body) : undefined });
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error||"error");
+  return j;
+}
+async function refreshMe(){
+  try{
+    const m = await api("/api/me");
+    const was = S.registered;
+    S.premium = !!m.premium; S.payStatus = m.status || "";
+    S.registered = !!m.registered; if(m.profile) S.profile = m.profile;
+    fillSubjects(); save();
+    // don't re-render while the person is typing in the registration form or playing a quiz
+    if(["premium","home","questions","exams","book","profile","compete"].includes(view) || was!==S.registered) render();
+  }catch(e){}
+}
+function gate(){ if(S.premium) return true; view="premium"; render(); return false; }
+const ERR = {
+  not_configured:"Payments are not set up yet.",
+  already_pending:"You already have a payment waiting for approval.",
+  duplicate_tx:"This transaction ID was already used.",
+  bad_tx:"Enter the transaction ID exactly as on your receipt (letters and numbers only).",
+  already_premium:"You already have premium.",
+  not_registered:"Please complete your registration first.",
+  too_many:"Too many attempts. Please contact support."
+};
+function say(t){ const m=$("#pmsg"); if(m) m.textContent=t; }
+function premiumView(){
+  if(S.premium) return `<div style="text-align:center"><div class="big">✅</div><h2>Premium active</h2>
+    <p class="sub">You have full access. Good luck with your exam! መልካም ዕድል!</p>
+    <button class="btn full" data-go="questions">Start studying</button></div>`;
+  const pend = S.payStatus==="pending", rej = S.payStatus==="rejected";
+  return `<h2>🔓 Unlock everything · ሁሉንም ክፈት</h2>
+  <p class="sub">One-time payment · lifetime access</p>
+  <div class="pay"><div style="font-size:30px;font-weight:800;color:var(--accent)">${PRICE} ETB</div>
+    ✔ All topics &amp; questions<br>✔ All past exams<br>✔ All exercise books<br>✔ Unlimited mock exams<br>✔ Daily challenge</div>
+  ${pend ? `
+    <div class="pay">⏳ <b>Payment received.</b> We're checking your transaction. You'll get a Telegram message when it's approved.</div>
+    <button class="btn full ghost" data-act="check">Check status</button>`
+  : `
+    <div class="pay"><b>Step 1.</b> Send ${PRICE} ETB to:<br>
+      📱 Telebirr: <b>${esc(PAY.telebirr)}</b><br>🏦 CBE: <b>${esc(PAY.cbe)}</b><br>
+      <small>Account name: ${esc(PAY.name)}</small></div>
+    <div class="pay"><b>Step 2.</b> Enter the transaction ID from your receipt:
+      <select id="pmethod" style="background:var(--bg);color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:13px;font-size:16px;margin:10px 0 0;width:100%">
+        <option value="telebirr">Telebirr</option><option value="cbe">CBE</option></select>
+      <input type="text" id="ptx" placeholder="e.g. DAB1C2D3E4" autocomplete="off"></div>
+    ${rej ? `<div class="msg" style="color:var(--bad)">Your last payment could not be verified. Check the ID and try again.</div>` : ""}
+    <button class="btn full" data-act="pay">Submit payment</button>`}
+  <div class="msg" id="pmsg"></div>`;
+}
+async function submitPayment(){
+  const txId = $("#ptx").value.trim().toUpperCase(), method = $("#pmethod").value;
+  if(!/^[A-Z0-9]{6,20}$/.test(txId)) return say(ERR.bad_tx);
+  say("Sending…");
+  try{
+    await api("/api/payments",{method,txId});
+    S.payStatus="pending"; save(); haptic("success"); render();
+  }catch(e){ say(ERR[e.message] || "Something went wrong. Please try again."); }
+}
+
+/* =====================  5. RENDER / EVENTS  ===================== */
+function render(){
+  if(!S.registered) view = "register";   // everyone registers first
+  const v = {home,questions,faq,compete,profile,quiz:quizView,result,premium:premiumView,register:registerView,exams:examsView,book:bookView}[view] || home;
+  $("#view").innerHTML = v();
+  const tab = ["quiz","result","exams","book"].includes(view) ? "questions" : view==="premium" ? "home" : view==="register" ? "profile" : view;
+  $("#nav").innerHTML = !S.registered ? "" : NAV.map(([id,ic,l])=>`<button class="${id===tab?"on":""}" data-go="${id}"><i>${ic}</i>${l}</button>`).join("");
+  if(view==="quiz" && quiz.end) tick();
+  window.scrollTo(0,0);
+}
+let lastQuiz = null;
+document.addEventListener("click", e=>{
+  const el = e.target.closest("[data-go],[data-act],[data-link]"); if(!el) return;
+  if(el.dataset.link){ const u = el.dataset.link; (tg?.openTelegramLink && u.startsWith("https://t.me")) ? tg.openTelegramLink(u) : window.open(u,"_blank"); return; }
+  if(el.dataset.go){ clearInterval(timer); view = el.dataset.go; return render(); }
+  const a = el.dataset.act;
+  if(a==="pick") pick(+el.dataset.i);
+  else if(a==="next") next();
+  else if(a==="topic"){ const idx = subj().topics.findIndex(x=>x.id===el.dataset.id); if(idx>0 && !gate()) return; const t = subj().topics[idx]; lastQuiz=()=>startQuiz(t.name,t.questions,t.questions.length,0,"topic"); lastQuiz(); }
+  else if(a==="mock"){ if(!gate()) return; lastQuiz=()=>startQuiz("Mock Exam",allQs(),10,15*60,"mock"); lastQuiz(); }
+  else if(a==="daily"){ if(!gate()) return; lastQuiz=()=>startQuiz("Daily Challenge",allQs(),5,5*60,"daily"); lastQuiz(); }
+  else if(a==="exam"){
+    const i = +el.dataset.i; if(i>0 && !gate()) return;
+    const x = (EXAMS[S.subject]||[])[i]; if(!x) return;
+    lastQuiz=()=>startQuiz(x.title,x.questions,x.questions.length,(x.minutes||0)*60,"exam",true); lastQuiz();
+  }
+  else if(a==="book"){
+    const i = +el.dataset.i; if(i>0 && !gate()) return;
+    const b = (BOOKS[S.subject]||[])[i]; if(!b) return;
+    const u = new URL(b.file, location.href).href;
+    tg?.openLink ? tg.openLink(u) : window.open(u,"_blank");
+  }
+  else if(a==="register") submitRegistration();
+  else if(a==="pay") submitPayment();
+  else if(a==="check") refreshMe().then(()=>say(S.premium ? "" : "Still waiting for approval."));
+  else if(a==="again") lastQuiz && lastQuiz();
+  else if(a==="reset"){ if(confirm("Reset all progress?")){ Object.assign(S,{answered:0,correct:0,quizzes:0,bySubject:{},board:[]}); save(); render(); } }
+});
+
+/* subject picker + theme */
+const sel = $("#subject");
+// each stream sees only its own subjects
+const STREAM_SUBJECTS = {
+  natural: ["math","phy","chem","bio","eng"],
+  social:  ["math","econ","geo","hist","eng"]
+};
+function fillSubjects(){
+  const keys = STREAM_SUBJECTS[S.profile?.stream] || Object.keys(DATA);
+  if(!keys.includes(S.subject)) S.subject = keys[0];
+  sel.innerHTML = keys.map(k=>`<option value="${k}">${DATA[k].icon} ${DATA[k].name} · ${DATA[k].am}</option>`).join("");
+  sel.value = S.subject;
+}
+fillSubjects();
+sel.onchange = () => { S.subject = sel.value; save(); view="home"; render(); };
+function applyTheme(){ document.documentElement.dataset.theme = S.theme; $("#theme").textContent = S.theme==="dark"?"☀️":"🌙"; }
+$("#theme").onclick = () => { S.theme = S.theme==="dark"?"light":"dark"; save(); applyTheme(); };
+applyTheme(); render(); refreshMe();
+</script>
+</body>
+</html>
